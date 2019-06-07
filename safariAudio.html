@@ -1,24 +1,123 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>HTML5 Audio Player for Safari</title>
+    <title>HTML5 Audio for Safari</title>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-<style>
-audio::-internal-media-controls-download-button {
-    display:none;
-}
-audio::-webkit-media-controls-enclosure {
-    overflow:hidden;
-}
-audio::-webkit-media-controls-panel {
-    width: calc(100% + 33px);
-}
-</style>
+    <style>
+      .player {
+          position: relative;
+          width: 50%;
+          height: 60px;
+          background-color: rgba(0,0,0,0.2);
+          display: flex;
+          border-radius: 2px;
+          padding: 5 16px;
+          img {
+            margin-top: 5px;
+            width: 60px;
+            height: 50px;
+          }
+          .info {
+            display: absolute;
+            flex-flow: column nowrap;
+            justify-content: center;
+            width: 50%;
+            padding: 0 16px;
+            .name {
+              font-size: 15px;
+              font-weight: 700;
+            }
+            .singer {
+              font-size: 12px;
+            }
+          }
+          .progress {
+            position: absolute;
+            height: 2px;
+            left: 0;
+            top: 0;
+            background-color: #00a8ff;
+          }
+        }
+        img{
+          width:60px;
+          height:60px;
+          margin-right: 15px;
+        }
+        .singer{
+          font-size: 12px;
+        }
+        .info{
+          margin-top: 10px;
+        }
+
+        .play-pause{
+          position: absolute;
+          top:0px;
+          right: 0px;
+          margin-right: 25px;
+          margin-top: 18px;
+        }
+
+        @font-face {
+          font-family: iconfont;
+          src: url('//static0.qianqian.com/web/st/font/iconfont-4e6.woff') format('woff')
+        }
+
+        .iconfont {
+          font-family: iconfont!important;
+          font-size: 16px;
+          font-style: normal;
+          -webkit-font-smoothing: antialiased;
+          -moz-osx-font-smoothing: grayscale
+        }
+
+        @media (max-width: 600px){
+          .player{
+            width:100%;
+          }
+        }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <script>
+        $(
+        function(){
+          var aud = $('audio')[0];
+          $('.play-pause').on('click', function(){
+          if (aud.paused) {
+            aud.play();
+            $('.play-pause').html('&#10074;&#10074;');
+          }
+          else {
+            aud.pause();
+            $('.play-pause').html('&#9654;');
+          }
+
+        })
+          $('.next').on('click', function(){
+          aud.src = 'another audio source';
+        })
+          aud.ontimeupdate = function(){
+            $('.progress').css('width', aud.currentTime / aud.duration * 100 + '%')
+          }
+        })
+    </script>
 </head>
 <body>
-<audio controls preload="auto" style="width:100%;">
-    <source src="http://rf01-sycdn.kuwo.cn/resource/n1/85/25/3223220202.mp3" type="audio/mpeg">
-    Your browser does not support the audio element.
-</audio><br />
+  <audio src= 'http://rf01-sycdn.kuwo.cn/resource/n1/85/25/3223220202.mp3'></audio>
+
+  <div class='player'>
+    <img src='image.png'/>
+    <div class='info'>
+      <div class='name'><b>Gold</b></div>
+      <div class='singer'>by Imagine Dragons</div>
+    </div>
+      <div class="iconfont play-pause">&#9654;</div>
+
+    <div class='progress'>
+
+    </div>
+  </div>
 </body>
 </html>
